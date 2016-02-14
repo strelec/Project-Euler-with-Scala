@@ -151,6 +151,18 @@ case class Sieve(n: Int) {
 		(((from - 2) / 2).toInt to size).iterator.filterNot(sieve).map(2*_ + 3)
 }
 
+object Comb {
+	def compositions(n: Int): Seq[List[Int]] = n match {
+		case 0 => Seq()
+		case 1 => Seq(List(1))
+		case n =>
+			val prev = compositions(n - 1)
+			prev.map { case h :: t =>
+				h + 1 :: t
+			} ++ prev.map(1 :: _)
+	} 
+}
+
 object Helpers {
 	def binoms(n: Int) = {
 		def aux(r: Int, acc: BigInt): Stream[BigInt] =
@@ -167,7 +179,7 @@ object Helpers {
 		
 	def reverse(num: Int) = {
 		var n = num
-		val result = 0
+		var result = 0
 		while(n != 0) {
 			result *= 10
 			result += n % 10
