@@ -98,7 +98,7 @@ val counts = table.map { case (_, (_, s)) =>
 }
 
 type Matrix = Vector[Vector[Long]]
-val elements: Matrix = Vector.tabulate(table.size, table.size)( (i, j) =>
+var elements: Matrix = Vector.tabulate(table.size, table.size)( (i, j) =>
 	// I HAD A BUG HERE, an element can occur multiple times, like:
 	// "Ga" -> "Eu", "Ca", "Ac", "H", "Ca", "Zn"
 	table(j)._2._1.count(_ == table(i)._1)
@@ -122,14 +122,13 @@ def mult(a: Matrix, b: Matrix): Matrix = {
 var output = Vector.tabulate(table.size)( i =>
 	if (i == 68 || i == 46) 1L else 0L
 )
-var evolution = elements
 
 var n = N - 11
 while(n > 0) {
 	if ((n & 1) == 1)
-		output = multv(evolution, output)
+		output = multv(elements, output)
 	n >>= 1
-	evolution = mult(evolution, evolution)
+	elements = mult(elements, elements)
 }
 
 val result = (output, counts).zipped.map( (count, digits) =>
