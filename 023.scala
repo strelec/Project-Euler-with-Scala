@@ -1,8 +1,9 @@
 import scala.collection.Searching._
-import helpers._
+
+val sieve = helpers.Sieve(168)
 
 val abundant = (1 to 28123).filter( i =>
-	NativeFactoring(i).divisorSum > 2*i
+	sieve.sumOfDivisors(i) > 2*i
 )
 
 val result = (1 to 28123).filter( i =>
