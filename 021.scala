@@ -1,8 +1,8 @@
-import helpers._
+val sieve = helpers.Sieve(100)
 
 val result = (2 until 10000).filter { i =>
-	val other = NativeFactoring(i).divisorSum - i
-	i != other && i == NativeFactoring(other).divisorSum - other
+	val other = (sieve.sumOfDivisors(i) - i).toInt
+	i != other && i == sieve.sumOfDivisors(other) - other
 }
 
 println(result.sum)
