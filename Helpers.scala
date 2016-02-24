@@ -122,6 +122,25 @@ case class Sieve(n: Int) {
 		} table(m) = table(m) / p * (p - 1)
 		table
 	}
+	
+	def sumOfDivisors(num: Int): Long = {
+		var n = num
+		var result = 1L
+		primesIter.takeWhile( p =>
+			n != 1 && p*p <= n
+		).foreach { p =>
+			var cur = p
+			while(n % p == 0) {
+				n /= p
+				cur *= p
+			}
+			if (cur != p)
+				result *= (cur - 1)/(p - 1)
+		}
+		if (n != 1)
+			result *= (n.toLong*n - 1)/(n - 1)
+		result
+	} 
 
 	def isPrime(num: Long): Boolean =
 		if (num <= 2)
@@ -141,6 +160,9 @@ case class Sieve(n: Int) {
 			case InsertionPoint(i) => i
 		}
 	}
+	
+	def primesIter() =
+		Iterator(2) ++ sieve.iterator.map(2*_ + 3)
 
 	def primesIter(from: Int = 2): Iterator[Int] = {
 		val it = sieve.iteratorFrom(((from - 2) / 2).toInt).map(2*_ + 3)
