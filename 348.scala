@@ -1,11 +1,9 @@
 val palin = for {
-	i <- Iterator.from(1)
-	d = Seq.fill(i)(10).product
-
+	d <- helpers.Number.powers(10)
 	fill <- Seq(d/10, d)
 	n <- (d/10 to d-1).toIterator
-	nrev = n.toString.reverse.toInt
-} yield n*fill + nrev%fill
+	nr = helpers.Number.reverse(n)
+} yield n*fill + nr%fill
 
 val result = palin.filter( n =>
 	(1 to math.cbrt(n).toInt).filter { cb =>
