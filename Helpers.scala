@@ -174,15 +174,27 @@ case class Sieve(n: Int) {
 }
 
 object Comb {
+	def partitions(n: Int): Seq[List[Int]] = {
+		require(n >= 0)
+		def aux(n: Int, max: Int): Seq[List[Int]] = n match {
+			case 0 => Seq(Nil)
+			case n => for {
+				i <- math.min(max, n) to 1 by -1
+				prev <- aux(n-i, i)
+			} yield i :: prev
+		}
+		aux(n, n)
+	}
+
 	def compositions(n: Int): Seq[List[Int]] = n match {
-		case 0 => Seq()
+		case 0 => Seq(Nil)
 		case 1 => Seq(List(1))
 		case n =>
 			val prev = compositions(n - 1)
 			prev.map { case h :: t =>
 				h + 1 :: t
 			} ++ prev.map(1 :: _)
-	} 
+	}
 }
 
 object Number {
