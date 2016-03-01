@@ -264,6 +264,9 @@ object Number {
 		}
 		true
 	}
+	
+	def powers(a: Int) =
+		Iterator.continually(a).scanLeft(a.toLong)(_ * _)
 }
 
 object Helpers {
