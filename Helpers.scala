@@ -229,6 +229,16 @@ object Number {
 		result
 	}
 	
+	def digits(num: Int): Int = {
+		var n = num
+		var result = 0
+		while(n != 0) {
+			result += 1
+			n /= 10
+		}
+		result	
+	}
+	
 	def isPandigital(num: Int): Boolean = {
 		var n = num
 		var mask = 1022
@@ -240,6 +250,19 @@ object Number {
 			mask &= ~d
 		}
 		mask == 0
+	}
+	
+	def noDuplicates(num: Int): Boolean = {
+		var n = num
+		var mask = 1022
+		while(n != 0) {
+			val d = 1 << (n % 10)
+			n /= 10
+			if ((d & mask) == 0)
+				return false
+			mask &= ~d
+		}
+		true
 	}
 }
 
