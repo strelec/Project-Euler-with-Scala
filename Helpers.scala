@@ -164,7 +164,7 @@ case class Sieve(n: Int) {
 	def primesIter() =
 		Iterator(2) ++ sieve.iterator.map(2*_ + 3)
 
-	def primesIter(from: Int = 2): Iterator[Int] = {
+	def primesIter(from: Int): Iterator[Int] = {
 		val it = sieve.iteratorFrom(((from - 2) / 2).toInt).map(2*_ + 3)
 		if (from > 2) it else Iterator(2) ++ it
 	}
@@ -185,6 +185,52 @@ object Comb {
 	} 
 }
 
+object Number {
+	def sum(num: Int): Int = {
+		var n = num
+		var result = 0
+		while(n != 0) {
+			result += n % 10
+			n /= 10
+		}
+		result		
+	}
+	
+	def product(num: Int): Int = {
+		var n = num
+		var result = 1
+		while(n != 0) {
+			result *= n % 10
+			n /= 10
+		}
+		result		
+	}
+
+	def reverse(num: Int): Int = {
+		var n = num
+		var result = 0
+		while(n != 0) {
+			result *= 10
+			result += n % 10
+			n /= 10
+		}
+		result
+	}
+	
+	def isPandigital(num: Int): Boolean = {
+		var n = num
+		var mask = 1022
+		while(n != 0) {
+			val d = 1 << (n % 10)
+			n /= 10
+			if ((d & mask) == 0)
+				return false
+			mask &= ~d
+		}
+		mask == 0
+	}
+}
+
 object Helpers {
 	def binoms(n: Int) = {
 		def aux(r: Int, acc: BigInt): Stream[BigInt] =
@@ -198,17 +244,6 @@ object Helpers {
 
 	def gcd(a: Int, b: Int): Int =
 		if (b == 0) a else gcd(b, a%b)
-		
-	def reverse(num: Int) = {
-		var n = num
-		var result = 0
-		while(n != 0) {
-			result *= 10
-			result += n % 10
-			n /= 10
-		}
-		result
-	}
 }
 
 object SumOfTotients {
