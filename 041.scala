@@ -1,10 +1,10 @@
-def isPrime(n: Long) = (2 to math.sqrt(n).toInt).forall(n % _ != 0)
+val sieve = helpers.Sieve(10000)
 
 val result = for {
-	n <- (9 to 1 by -1).toStream
+	n <- (8 to 1 by -1).iterator
 	i <- (n to 1 by -1).permutations
 	p = i.mkString.toLong
-	if isPrime(p)
+	if sieve.isPrime(p)
 } yield p
 
-println(result.head)
+println(result.next)
