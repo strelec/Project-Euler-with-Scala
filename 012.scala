@@ -1,8 +1,10 @@
-val max = 10000
-val out = (1 to max).iterator.map(x => x*(x+1)/2).find { n =>
-	println(n)
-	println( (1 to n).count(n % _ == 0) )
-	500 < (1 to n).count(n % _ == 0)
-}
+val N = 500
+val sieve = helpers.Sieve(10000)
 
-println(out)
+val result = for {
+	i <- Iterator.from(1)
+	n = i * (i + 1) / 2
+	if N < sieve.numberOfDivisors(n)
+} yield n
+
+println(result.next)
