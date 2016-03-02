@@ -1,5 +1,8 @@
-val table = helpers.MultiFactoring(100000).table
+val N = 100000
+val sieve = helpers.Sieve(1000)
 
-val result = (1 to 100000).map(x => table(x).product -> x).sorted
+val result = (1 to N).map( n =>
+	sieve.radicalOf(n) -> n
+).sorted
 
-println(result(9999))
+println(result(10000 - 1)._2)
