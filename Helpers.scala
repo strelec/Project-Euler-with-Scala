@@ -1,62 +1,5 @@
 package helpers
 
-abstract class Factoring {
-	val n: Long
-
-	def factors: Iterable[Long]
-
-	lazy val isPrime = factors.size == 1
-
-	lazy val factor: Map[Long, Int] =
-		factors.groupBy(identity).mapValues(_.size)
-
-	lazy val divisors: Seq[Long] = {
-		def aux(l: List[(Long, Int)]): Seq[Long] = l match {
-			case (p, times) :: tail =>
-				for {
-					cur <- aux(tail)
-					i <- 0 to times
-					factor = math.pow(p, i).toLong
-				} yield cur * factor
-			case _ => Seq(1)
-		}
-		aux(factor.toList)
-	}
-	
-	lazy val divisorCount: Int = factor.map(_._2 + 1).product
-
-	lazy val divisorSum: Long = factor.map { case (p, times) =>
-		(math.pow(p, times+1).toLong - 1)/(p - 1)
-	}.product
-}
-
-case class SysFactoring(n: Long) extends Factoring {
-	import scala.sys.process._
-
-	lazy val factors =
-		Seq("factor", n.toString).!!.trim.split(" +").toList.tail.map(_.toLong)
-}
-
-case class NativeFactoring(n: Long) extends Factoring {
-	lazy val factors = {
-		var result = List.empty[Long]
-		var num = n
-
-		var cur = 2
-		while (cur <= n/cur) {
-			while(num % cur == 0) {
-				result ::= cur
-				num /= cur
-			}
-			cur += 1
-		}
-		if (num > 1)
-			result ::= num
-
-		result.sorted
-	}
-}
-
 case class Sieve(n: Int) {
 	private val size = (n - 3) / 2
 
@@ -109,6 +52,8 @@ case class Sieve(n: Int) {
 
 
 
+
+
 	def factorsOf(num: Int): List[Int] = {
 		var n = num
 		var result = List.empty[Int]
@@ -123,6 +68,20 @@ case class Sieve(n: Int) {
 		if (n > 1)
 			result ::= n
 		result		
+	}
+	
+	def divisorsOf(num: Int): List[Int] = {
+		def aux(l: List[Int]): List[Int] = l match {
+			case Nil => List(1)
+			case p :: t =>
+				val (h, rest) = t.span(_ == p)
+				val times = h.size + 1
+				for {
+					cur <- aux(rest)
+					factor <- Iterator.fill(times)(p).scanLeft(1)(_ * _)
+				} yield cur * factor
+		}
+		aux(factorsOf(num))
 	}
 	
 	def radicalOf(num: Int): Int =
