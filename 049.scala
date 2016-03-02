@@ -2,9 +2,9 @@ val buckets = helpers.Sieve(10000).primesIter(1000).toSeq.groupBy(_.toString.sor
 
 val result = for {
 	(key, vals) <- buckets
-	i <- 0 until vals.size
+	i <- vals.indices
 	if vals(i) != 1487
-	j <- i+1 until vals.size
+	j <- vals.indices.drop(i+1)
 	third = 2*vals(j) - vals(i)
 	if vals contains third
 } yield "" + vals(i) + vals(j) + third
