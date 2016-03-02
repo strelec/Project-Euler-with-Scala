@@ -6,14 +6,12 @@ val result = for {
 	ds = d.toString
 	
 	common = ns intersect ds
-	if common.exists { c =>
-		n * ds.diff(Seq(c)).toInt == d * ns.diff(Seq(c)).toInt
-	}
-} yield n -> d
+	if common.exists( c =>
+		n * (ds diff Seq(c)).toInt == d * (ns diff Seq(c)).toInt
+	)
+} yield (n, d)
 
 val n = result.map(_._1).product
 val d = result.map(_._2).product
 
-val gcd = BigInt(n).gcd(d).toInt
-
-println(d/gcd)
+println(d / helpers.Helpers.gcd(n, d))
