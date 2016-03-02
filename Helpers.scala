@@ -57,43 +57,6 @@ case class NativeFactoring(n: Long) extends Factoring {
 	}
 }
 
-case class MultiFactoring(n: Int) {
-	val sieve = Sieve(n)
-	var table = Array.fill(n+1)(List.empty[Int])
-	
-	for {
-		prime <- sieve.primesIter().dropWhile(_ <= 7)
-		i <- prime to n by prime
-	} table(i) ::= prime
-
-	def totient(i: Int) = {
-		var result = i
-		
-		if (i % 2 == 0)
-			result /= 2
-		if (i % 3 == 0) {
-			result /= 3
-			result *= 2
-		}
-		if (i % 5 == 0) {
-			result /= 5
-			result *= 4
-		}
-		if (i % 7 == 0) {
-			result /= 7
-			result *= 6
-		}
-		
-		table(i).foreach { p =>
-			result /= p
-			result *= p - 1
-		}
-
-		result
-	}
-}
-
-
 case class Sieve(n: Int) {
 	private val size = (n - 3) / 2
 
@@ -122,35 +85,6 @@ case class Sieve(n: Int) {
 		} table(m) = table(m) / p * (p - 1)
 		table
 	}
-	
-	def sumOfDivisors(num: Int): Long = {
-		var n = num
-		var result = 1L
-		primesIter.takeWhile( p =>
-			n != 1 && p*p <= n
-		).foreach { p =>
-			var cur = p
-			while(n % p == 0) {
-				n /= p
-				cur *= p
-			}
-			if (cur != p)
-				result *= (cur - 1)/(p - 1)
-		}
-		if (n != 1)
-			result *= (n.toLong*n - 1)/(n - 1)
-		result
-	} 
-
-	def isPrime(num: Long): Boolean =
-		if (num <= 2)
-			num == 2
-		else if (num <= n)
-			num%2 == 1 && sieve(((num - 3) / 2).toInt)
-		else if (num <= n.toLong*n) {
-			val root = math.sqrt(num).toInt
-			primes.takeWhile(_ <= root).forall(num % _ != 0)
-		} else throw new Exception(s"Cannot check $num for primality in sieve of size $n.")
 
 	def primeCount(num: Int): Int = {
 		import collection.Searching._
@@ -171,6 +105,57 @@ case class Sieve(n: Int) {
 
 	def oddCompositesIter(from: Int = 9): Iterator[Int] =
 		(((from - 2) / 2).toInt to size).iterator.filterNot(sieve).map(2*_ + 3)
+
+
+
+
+	def factorsOf(num: Int): List[Int] = {
+		var n = num
+		var result = List.empty[Int]
+		primes.takeWhile( p =>
+			n != 1 && p*p <= n
+		).foreach { p =>
+			while(n % p == 0) {
+				n /= p
+				result ::= p
+			}
+		}
+		if (n != 1)
+			result ::= n
+		result		
+	}
+	
+	def radicalOf(num: Int): Int =
+		factorsOf(num).distinct.product
+
+	def sumOfDivisors(num: Int): Long = {
+		var n = num
+		var result = 1L
+		primes.takeWhile( p =>
+			n != 1 && p*p <= n
+		).foreach { p =>
+			var cur = p
+			while(n % p == 0) {
+				n /= p
+				cur *= p
+			}
+			if (cur != p)
+				result *= (cur - 1)/(p - 1)
+		}
+		if (n != 1)
+			result *= (n.toLong*n - 1)/(n - 1)
+		result
+	}
+
+	def isPrime(num: Long): Boolean =
+		if (num <= 2)
+			num == 2
+		else if (num <= n)
+			num%2 == 1 && sieve(((num - 3) / 2).toInt)
+		else if (num <= n.toLong*n) {
+			val root = math.sqrt(num).toInt
+			primes.takeWhile(_ <= root).forall(num % _ != 0)
+		} else throw new Exception(s"Cannot check $num for primality in sieve of size $n.")
 }
 
 object Comb {
