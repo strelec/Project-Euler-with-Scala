@@ -1,6 +1,7 @@
 val N = 120000 - 1
 
-val factors = (0 to N).map(helpers.NativeFactoring(_).factor.keySet)
+val sieve = helpers.Sieve(1000)
+val factors = (0 to N).map(sieve.factorsOf(_).toSet)
 val radicals = factors.map(_.product)
 
 val result = for {

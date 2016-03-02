@@ -120,7 +120,7 @@ case class Sieve(n: Int) {
 				result ::= p
 			}
 		}
-		if (n != 1)
+		if (n > 1)
 			result ::= n
 		result		
 	}
