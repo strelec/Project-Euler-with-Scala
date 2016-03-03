@@ -233,7 +233,8 @@ object Number {
 
 case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
 
-	override def toString = s"($n/$d)"
+	override def toString =
+		if (d == 1) s"$n" else s"$n/$d"
 	
 	private def create(a: Long, b: Long) =
 		if (a == 0) Rational(0, 1) else {
@@ -246,14 +247,21 @@ case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
 
 
 
-	def inv =
-		Rational(d, n)
+	def inv = Rational(d, n)
+	
+	def unary_- = Rational(-d, n)
 
 	def +(that: Rational) =
 		create(n*that.d + that.n*d, d*that.d)
-	
+
+	def -(that: Rational) =
+		create(n*that.d - that.n*d, d*that.d)
+
 	def *(that: Rational) =
 		create(n*that.n, d*that.d)
+
+	def /(that: Rational) =
+		create(n*that.d, d*that.n)
 }
 
 object Helpers {
