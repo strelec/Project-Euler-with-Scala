@@ -7,9 +7,9 @@
 	A4 A5 A6 B1
 	
 	1. Writing down the system of equations, the problem has 8 degrees of freedom, representing the "A" variables on above diagram.
-	2. Try 0 .. 9 without constraints for each of A1 - A4. Their sum is the magic constant.
-	3. For A5 - A8 try 0 .. 9, but apply constraints and comute "B" variables, which can be done trivially.
-	4. We are left with 4 fields, none trivialy computable. We derive C1 = S - A8 - A4 + A7 + A5 - A1 - B4. Check if C1 in 0 .. 9.
+	2. Try 0 .. 9 without constraints for each of A1 - A4. Their sum is the magic constant S.
+	3. For A5 - A8 try 0 .. 9, but apply constraints and compute "B" variables alongside, which can be done trivially.
+	4. We are left with 4 fields, none trivialy computable. We derive C1 = (S - A8 - A4 + A7 + A5 - A1 - B4)/2. Check if C1 in 0 .. 9.
 	5. Having computed C1, the other three are again trivial. Just make sure they fall on 0 .. 9.
 */
 
