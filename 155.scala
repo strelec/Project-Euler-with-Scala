@@ -1,14 +1,17 @@
-var prev = Set((1, 1))
-var cumul = prev
+import helpers.Rational
 
-(2 to 18).foreach { _ =>
-	prev = prev.flatMap { case (n, d) =>
-		Seq((n+d, d), (d, n+d))
-	}.map { case (n, d) =>
-		val c = helpers.Helpers.gcd(n, d)
-		(n/c, d/c)
-	}
-	cumul |= prev
+val N = 18
+
+val result = Array.fill(N+1)(Seq.empty[Rational])
+result(1) = Seq(Rational(60))
+
+(2 to N).foreach { n =>
+	result(n) = (for {
+		i <- (1 to (n+1)/2)
+		a <- result(i)
+		b <- result(n-i)
+		c <- Seq(a+b, (a.inv+b.inv).inv)
+	} yield c).distinct
 }
 
-println(cumul.size)
+println(result.flatten.distinct.size)
