@@ -231,6 +231,31 @@ object Number {
 		Iterator.continually(a).scanLeft(a.toLong)(_ * _)
 }
 
+case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
+
+	override def toString = s"($n/$d)"
+	
+	private def create(a: Long, b: Long) =
+		if (a == 0) Rational(0, 1) else {
+			val gcd = Helpers.gcd(a, b)
+			Rational(a/gcd, b/gcd)
+		}
+
+	def compare(that: Rational) =
+		n*that.d compare that.n*d
+
+
+
+	def inv =
+		Rational(d, n)
+
+	def +(that: Rational) =
+		create(n*that.d + that.n*d, d*that.d)
+	
+	def *(that: Rational) =
+		create(n*that.n, d*that.d)
+}
+
 object Helpers {
 	def binoms(n: Int) = {
 		def aux(r: Int, acc: BigInt): Stream[BigInt] =
@@ -243,6 +268,9 @@ object Helpers {
 	}
 
 	def gcd(a: Int, b: Int): Int =
+		if (b == 0) a else gcd(b, a%b)
+
+	def gcd(a: Long, b: Long): Long =
 		if (b == 0) a else gcd(b, a%b)
 }
 
