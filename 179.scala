@@ -1,5 +1,3 @@
-import helpers._
-
 val N = 10000000
 
 val table = Array.fill(N)(0)
@@ -12,5 +10,4 @@ for {
 val result = table.sliding(2).count( x =>
 	x(0) == x(1)
 )
-
 println(result)
