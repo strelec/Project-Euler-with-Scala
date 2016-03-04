@@ -301,3 +301,23 @@ object SumOfTotients {
 		-1
 	})
 }
+
+class DisjointSets(n: Int) {
+	val s = Array.fill(n)(-1)
+	
+	def union(a: Int, b: Int) {
+		if (s(b) < s(a))
+			s(a) = b
+		else {
+			if (s(a) == s(b))
+				s(a) -= 1
+			s(b) = a
+		}
+	}
+	
+	def find(a: Int): Int =
+		if (s(a) < 0) a else {
+			s(a) = find(s(a))
+			s(a)
+		}
+}
