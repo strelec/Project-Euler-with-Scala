@@ -78,7 +78,7 @@ case class Sieve(n: Int) {
 				val times = h.size + 1
 				for {
 					cur <- aux(rest)
-					factor <- Iterator.fill(times)(p).scanLeft(1)(_ * _)
+					factor <- Iterator.iterate(1)(_ * p).take(times+1)
 				} yield cur * factor
 		}
 		aux(factorsOf(num))
