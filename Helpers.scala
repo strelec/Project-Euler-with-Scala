@@ -228,7 +228,7 @@ object Number {
 	}
 	
 	def powers(a: Int) =
-		Iterator.continually(a).scanLeft(a.toLong)(_ * _)
+		Iterator.iterate(a.toLong)(_ * a)
 }
 
 case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
