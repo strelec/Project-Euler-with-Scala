@@ -106,7 +106,7 @@ case class Sieve(n: Int) {
 		result
 	}
 	
-	def numberOfDivisors(num: Int): Int = {
+	def numberOfDivisors(num: Int, power: Int = 1): Int = {
 		var n = num
 		var result = 1
 		primes.takeWhile( p =>
@@ -115,7 +115,25 @@ case class Sieve(n: Int) {
 			var cur = 1
 			while(n % p == 0) {
 				n /= p
-				cur += 1
+				cur += power
+			}
+			result *= cur
+		}
+		if (n != 1)
+			result *= power + 1
+		result	
+	}
+	
+	def numberOfDivisorsSquare(num: Int): Int = {
+		var n = num
+		var result = 1
+		primes.takeWhile( p =>
+			n != 1 && p*p <= n
+		).foreach { p =>
+			var cur = 1
+			while(n % p == 0) {
+				n /= p
+				cur += 2
 			}
 			result *= cur
 		}
