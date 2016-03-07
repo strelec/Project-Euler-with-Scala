@@ -321,3 +321,35 @@ class DisjointSets(n: Int) {
 			s(a)
 		}
 }
+
+case class PythTriple(a: Int, b: Int, c: Int, k: Int = 1) extends Ordered[PythTriple] {
+	def mi = if (a < b) k*a else k*b
+	def ma = if (a < b) k*b else k*a
+	def compare(that: PythTriple) = that.mi compare mi
+	
+	override def toString =
+		(if (k == 1) (mi,ma,c) else (mi, ma, k*c, k)).toString
+	
+	def next = {
+		val t = 2*(a + b + c)
+		val (x, y, z) = (t - a, t - b, t + c)
+		val kp1 = this.copy(k = k+1)
+		if (k != 1) Seq(kp1) else Seq(
+			kp1,
+			PythTriple(x - 4*b, y - 2*b, z - 4*b),
+			PythTriple(x, y, z),
+			PythTriple(x - 2*a, y - 4*a, z - 4*a)
+		)
+	}
+}
+
+object PythTriple {
+	def inOrder = {
+		val q = collection.mutable.PriorityQueue( PythTriple(3,4,5) )
+		Iterator.continually {
+			val min = q.dequeue
+			min.next.foreach(q.enqueue(_))
+			min
+		}
+	}
+}
