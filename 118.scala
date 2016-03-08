@@ -8,7 +8,7 @@ val trivial = (for {
 } yield perm).size
 
 val primes =
-	sieve.primes.filter(helpers.Number.noDuplicates).groupBy(helpers.Number.digits)
+	sieve.primes.filter(helpers.Number.noDuplicates).groupBy(helpers.Number.count)
 	
 def count(rem: List[Int]) = {
 	def aux(set: String, rem: List[Int], max: Int): Int = rem match {

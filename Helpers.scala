@@ -123,24 +123,6 @@ case class Sieve(n: Int) {
 			result *= power + 1
 		result	
 	}
-	
-	def numberOfDivisorsSquare(num: Int): Int = {
-		var n = num
-		var result = 1
-		primes.takeWhile( p =>
-			n != 1 && p*p <= n
-		).foreach { p =>
-			var cur = 1
-			while(n % p == 0) {
-				n /= p
-				cur += 2
-			}
-			result *= cur
-		}
-		if (n != 1)
-			result *= 2
-		result	
-	}
 
 	def isPrime(num: Long): Boolean =
 		if (num <= 2)
@@ -197,6 +179,16 @@ object Number {
 		}
 		result		
 	}
+	
+	def count(num: Int): Int = {
+		var n = num
+		var result = 0
+		while(n != 0) {
+			result += 1
+			n /= 10
+		}
+		result	
+	}
 
 	def reverse(num: Int): Int = {
 		var n = num
@@ -207,16 +199,6 @@ object Number {
 			n /= 10
 		}
 		result
-	}
-	
-	def digits(num: Int): Int = {
-		var n = num
-		var result = 0
-		while(n != 0) {
-			result += 1
-			n /= 10
-		}
-		result	
 	}
 	
 	def isPandigital(num: Int): Boolean = {
