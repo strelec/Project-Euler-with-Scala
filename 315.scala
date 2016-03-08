@@ -1,6 +1,7 @@
-val primes = helpers.Sieve(2*1000*1000).primesIter(1000*1000).map(
-	_.toString.map(_.asDigit).reverse
-).toVector
+val N = 20000000
+val M = 10000000
+
+val primes = helpers.Sieve(N).primesIter(M)
 
 val digits = Vector(
 	Vector(1,1, 1,0,1, 1,1),
@@ -12,28 +13,24 @@ val digits = Vector(
 	Vector(1,1, 1,1,1, 0,1),
 	Vector(1,0, 1,0,0, 1,1),
 	Vector(1,1, 1,1,1, 1,1),
-	Vector(1,0, 1,1,1, 1,1),
-	
-	Vector(0,0, 0,0,0, 0,0)
+	Vector(1,0, 1,1,1, 1,1)
 )
 
-val sam = {
-	val counts = digits.map(
-		_.count(_ == 1)
-	)
-
-	2 * primes.flatten.map(counts).sum
-}
-val max = {
-	val diff = Vector.tabulate(11, 11) { case (i, j) =>
-		(0 until 7).count( c => digits(i)(c) != digits(j)(c))
+val keepers = Vector.tabulate(10, 10)( (i, j) =>
+	(digits(i), digits(j)).zipped.count {
+		case (a, b) => 1 == a && 1 == b
 	}
-	
-	primes.sliding(2).map { case Seq(a, b) =>
-		a.zipAll(b, 10, 10).map { case (ad, bd) =>
-			diff(ad)(bd)
-		}.sum
-	}.sum
-}
+)
 
-println(sam - max)
+def root(l: List[Int]) =
+	helpers.Number.digits(l.sum).reverse
+
+val result = for {
+	p <- primes
+	ps = root(List(p))
+	it = Iterator.iterate(ps)(root).takeWhile(_.nonEmpty)
+	Seq(a, b) <- it.sliding(2).takeWhile { case Seq(a, b) => a != b }
+	v <- (a, b).zipped.map(keepers(_)(_))
+} yield v
+
+println(2 * result.sum)
