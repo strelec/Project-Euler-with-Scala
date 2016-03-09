@@ -229,6 +229,16 @@ object Number {
 	
 	def powers(a: Int) =
 		Iterator.iterate(a.toLong)(_ * a)
+
+	def digits(num: Int): List[Int] = {
+		var n = num
+		var result = List.empty[Int]
+		while(n != 0) {
+			result ::= n % 10
+			n /= 10
+		}
+		result
+	}
 }
 
 case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
