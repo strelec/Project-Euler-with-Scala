@@ -157,6 +157,22 @@ object Comb {
 				h + 1 :: t
 			} ++ prev.map(1 :: _)
 	}
+
+	def cartesian[T](s: List[Seq[T]]): Seq[List[T]] = s match {
+		case Nil => Seq(Nil)
+		case h :: t => for {
+			prev <- cartesian(t)
+			el <- h
+		} yield el :: prev
+	}
+
+	def cartesian[T](s: Seq[T], n: Int): Seq[List[T]] = n match {
+		case 0 => Seq(Nil)
+		case _ => for {
+			prev <- cartesian(s, n-1)
+			el <- s
+		} yield el :: prev
+	}
 }
 
 object Number {
