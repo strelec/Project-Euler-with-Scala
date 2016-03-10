@@ -1,15 +1,18 @@
-var set = Map(1 -> 0)
+import collection.BitSet
 
-while(set.size < 200) {
-	set = (for {
-		(a, am) <- set
-		(b, bm) <- set
-		c = a + b
-		if c <= 200
-		cm = math.max(am, bm) + 1
-	} yield c -> cm) ++ set
-	println(set)
+val N = 200
+val memo = Array.fill(N+1)(Seq.empty[BitSet])
+memo(1) = Seq(BitSet(1))
+
+val result = (2 to N).map { i =>
+	val tmp = for {
+		j <- 1 to i/2
+		a <- memo(j)
+		b <- memo(i-j)
+	} yield (a | b) + (a.max + b.max)
+	val min = tmp.map(_.size).min
+	memo(i) = tmp.filter(_.size == min)
+	min - 1
 }
 
-println(set.values.sum)
-
+println(result.sum)
