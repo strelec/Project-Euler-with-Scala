@@ -70,24 +70,6 @@ case class Sieve(n: Int) {
 		result	
 	}
 
-	def mobius(num: Int): Int = {
-		var n = num
-		var result = 1
-		primes.takeWhile( p =>
-			n != 1 && p*p <= n
-		).foreach { p =>
-			if (n % p == 0) {
-				n /= p
-				result *= -1
-			}
-			if (n % p == 0)
-				return 0
-		}
-		if (n != 1)
-			result *= -1
-		result	
-	}
-
 	def isPrime(num: Long): Boolean =
 		if (num <= 2)
 			num == 2
