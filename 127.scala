@@ -1,8 +1,7 @@
 val N = 120000 - 1
 
-val sieve = helpers.Sieve(1000)
-val factors = (0 to N).map(sieve.factorsOf(_).toSet)
-val radicals = factors.map(_.product)
+val factors = sieves.Factors(N)
+val radicals = sieves.Radical(N)
 
 val result = for {
 	c <- 0 to N
@@ -13,7 +12,7 @@ val result = for {
 	if radicals(a) < rem
 	b = c - a
 	if radicals(a) * radicals(b) < rem
-	if (factors(a) & factors(b)).isEmpty
+	if (factors(a) intersect factors(b)).isEmpty
 } yield c
 
 println(result.sum)

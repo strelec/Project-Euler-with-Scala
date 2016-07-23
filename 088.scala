@@ -1,9 +1,9 @@
 val N = 12000
 
-val sieve = helpers.Sieve(1000)
+val sieve = sieves.Factors(800000)
 
 def ks(n: Int) = {
-	val factors = sieve.factorsOf(n).distinct
+	val factors = sieve(n)
 	
 	def aux(n: Int, cur: Int): Set[(Int, Int)] = if (n == 1) Set((cur, 1)) else {
 		val cont = (for {

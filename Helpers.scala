@@ -51,42 +51,6 @@ case class Sieve(n: Int) {
 
 
 
-
-
-
-	def factorsOf(num: Int): List[Int] = {
-		var n = num
-		var result = List.empty[Int]
-		primes.takeWhile( p =>
-			n != 1 && p*p <= n
-		).foreach { p =>
-			while(n % p == 0) {
-				n /= p
-				result ::= p
-			}
-		}
-		if (n > 1)
-			result ::= n
-		result		
-	}
-	
-	def divisorsOf(num: Int): List[Int] = {
-		def aux(l: List[Int]): List[Int] = l match {
-			case Nil => List(1)
-			case p :: t =>
-				val (h, rest) = t.span(_ == p)
-				val times = h.size + 1
-				for {
-					cur <- aux(rest)
-					factor <- Iterator.iterate(1)(_ * p).take(times+1)
-				} yield cur * factor
-		}
-		aux(factorsOf(num))
-	}
-	
-	def radicalOf(num: Int): Int =
-		factorsOf(num).distinct.product
-
 	def sumOfDivisors(num: Int): Long = {
 		var n = num
 		var result = 1L
