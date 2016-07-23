@@ -1,12 +1,14 @@
 import scala.collection.Searching._
 
-val sieve = helpers.Sieve(168)
+val N = 28123
 
-val abundant = (1 to 28123).filter( i =>
-	sieve.sumOfDivisors(i) > 2*i
+val sieve = sieves.DivisorSum(N)
+
+val abundant = (1 to N).filter( i =>
+	sieve(i) > 2*i
 )
 
-val result = (1 to 28123).filter( i =>
+val result = (1 to N).filter( i =>
 	abundant.takeWhile(_ < i).forall( j =>
 		abundant.search(i - j) match {
 			case Found(_) => false

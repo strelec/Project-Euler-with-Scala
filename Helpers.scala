@@ -51,24 +51,6 @@ case class Sieve(n: Int) {
 
 
 
-	def sumOfDivisors(num: Int): Long = {
-		var n = num
-		var result = 1L
-		primes.takeWhile( p =>
-			n != 1 && p*p <= n
-		).foreach { p =>
-			var cur = p
-			while(n % p == 0) {
-				n /= p
-				cur *= p
-			}
-			if (cur != p)
-				result *= (cur - 1)/(p - 1)
-		}
-		if (n != 1)
-			result *= (n.toLong*n - 1)/(n - 1)
-		result
-	}
 	
 	def numberOfDivisors(num: Int, power: Int = 1): Int = {
 		var n = num

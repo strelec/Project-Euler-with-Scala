@@ -1,5 +1,5 @@
 val N = 1000000
-val sieve = helpers.Sieve(1000)
+val sieve = sieves.DivisorSum(N)
 
 var seen = Set(1)
 var longest = -1
@@ -12,7 +12,7 @@ var result = 0
 		seen += i
 		step += 1
 		chain += i -> step
-		i = sieve.sumOfDivisors(i).toInt - i
+		i = sieve(i) - i
 	}
 	if (chain.contains(i)) {
 		val length = step - chain(i) + 1

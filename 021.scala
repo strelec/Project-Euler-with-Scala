@@ -1,8 +1,10 @@
-val sieve = helpers.Sieve(100)
+val N = 10000 - 1
 
-val result = (2 until 10000).filter { i =>
-	val other = (sieve.sumOfDivisors(i) - i).toInt
-	i != other && i == sieve.sumOfDivisors(other) - other
+val sieve = sieves.DivisorSum(3 * N)
+
+val result = (2 to N).filter { i =>
+	val other = sieve(i) - i
+	i != other && i == sieve(other) - other
 }
 
 println(result.sum)
