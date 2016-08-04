@@ -47,7 +47,6 @@ val result = {
 		if (x.isNaN) {
 			stop = true;
 			y -= step
-			println(y)
 			sum -= gss(y) * gss(y)
 		} else {
 			y += step
