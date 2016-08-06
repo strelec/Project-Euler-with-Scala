@@ -3,8 +3,14 @@ package sieves
 import scala.reflect.ClassTag
 
 abstract class Sieve[T: ClassTag](n: Int, init: T) {
-	val data = Array.fill(n+1)(init)
+	var data: Array[T] = _
 	val remainder = (0 to n).toArray
+	
+	def initialize {
+		data = Array.fill(n+1)(init)
+	}
+	initialize
+	
 	
 	def primeAction(p: Int) { compositeAction(p, p, 1) }
 	def compositeAction(p: Int, i: Int, power: Int) {}
@@ -102,4 +108,14 @@ case class Mobius(n: Int) extends Sieve[Int](n, 1) {
 			data(i) *= -1
 		}
 	}
+}
+
+case class Totients(n: Int) extends Sieve[Int](n, 1) {
+	override def initialize {
+		data = (0 to n).toArray
+	}
+	
+	override def compositeAction(p: Int, i: Int, power: Int) {
+		data(i) = data(i) / p * (p-1)
+	}	
 }
