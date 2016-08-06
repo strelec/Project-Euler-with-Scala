@@ -17,18 +17,6 @@ case class Sieve(n: Int) {
 	lazy val primes: IndexedSeq[Int] =
 		2 +: sieve.toVector.map(2*_ + 3)
 
-	lazy val totients: IndexedSeq[Int] = {
-		val table = Array.tabulate(n + 1)( i =>
-			if (i % 2 == 0) i / 2 else i
-		)
-		for {
-			i <- sieve
-			p = 2*i + 3
-			m <- p to n by p
-		} table(m) = table(m) / p * (p - 1)
-		table
-	}
-
 	def primeCount(num: Int): Int = {
 		import collection.Searching._
 

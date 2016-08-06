@@ -41,6 +41,10 @@ abstract class Sieve[T: ClassTag](n: Int, init: T) {
 	}
 	
 	def apply(i: Int) = data(i)
+	
+	def primes = {
+		(1 to m).filter(sieve) ++ (m+1 to n).filter( i => remainder(i) == i )
+	}
 }
 
 
