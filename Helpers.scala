@@ -205,6 +205,13 @@ case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
 	def compare(that: Rational) =
 		n*that.d compare that.n*d
 
+	def isInteger = d == 1
+
+	def isNatural =
+		d == 1 && n > 0
+
+	def toLong =  n / d
+
 
 
 	def inv = Rational(d, n)
