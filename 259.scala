@@ -2,11 +2,9 @@ import helpers.Rational
 
 val memo = {
 	val digits = "123456789"
-	Array.tabulate(9, 9) { (i, j) =>
-		if (i <= j)
-			Set(Rational(digits.substring(i, j+1).toInt))
-		else Set(Rational(0))
-	}
+	Array.tabulate(9, 9)( (i, j) =>
+		Set(Rational(("0" + digits.take(j+1).drop(i)).toInt))
+	)
 }
 
 for {
@@ -19,5 +17,5 @@ for {
 	c <- Seq(a+b, a-b, a*b, a/b)
 } yield c)
 
-val result = memo(0)(8).filter(_.isNatural).map(_.toLong).sum
+val result = memo(0)(9-1).filter(_.isNatural).map(_.toLong).sum
 println(result)
