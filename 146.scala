@@ -11,7 +11,7 @@ val result = for {
 	
 	n2 = BigInt(n*n)
 	if pp(n2 + 1) && pp(n2 + 3) && pp(n2 + 7) && pp(n2 + 9) && pp(n2 + 13) && pp(n2 + 27)
-	if !pp(n2 + 19) && !pp(n2 + 21)
+	if !pp(n2 + 21)
 } yield n
 
 println(result.sum)
