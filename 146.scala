@@ -1,9 +1,8 @@
 val N = 150000000
 
 val result = for {
-	k <- 0L to N/70
-	n <- Seq(70*k + 10, 70*k + 60)
-	if n < N
+	a <- Seq(10L, 60L)
+	n <- a until N by 70
 	
 	if n % 3 != 0
 	m = n % 13
