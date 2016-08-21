@@ -242,6 +242,25 @@ object Helpers {
 		aux(1, 1)
 	}
 
+	type DoubleRange = scala.collection.immutable.NumericRange[Double]
+
+	def minimize(r: DoubleRange, f: Double => Double) = {
+		val gr = (math.sqrt(5) + 1) / 2
+
+		var a = r.start
+		var b = r.end
+		var c = b - (b-a) / gr
+		var d = a + (b-a) / gr
+
+		while (math.abs(c - d) > r.step) {
+			if (f(c) < f(d)) b = d else a = c
+			c = b - (b-a) / gr
+			d = a + (b-a) / gr
+		}
+
+		(b + a) / 2
+	}
+
 	def gcd(a: Int, b: Int): Int =
 		if (b == 0) a else gcd(b, a%b)
 
