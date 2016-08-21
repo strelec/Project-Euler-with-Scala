@@ -18,36 +18,24 @@ def f(y: Double, fi: Double) = {
 	(-b - math.sqrt(b*b - 4*a*c)) / 2 / a
 }
 
-val gr = (math.sqrt(5) + 1) / 2
-
-def gss(y: Double) = {
-	var a = 0.0
-	var b = math.Pi / 2
-	var c = b - (b-a) / gr
-	var d = a + (b-a) / gr
-	
-	while (math.abs(c - d) > 10e-8) {
-		if (f(y, c) > f(y, d)) b = d else a = c
-		c = b - (b-a) / gr
-		d = a + (b-a) / gr
-	}
-	
-	f(y, (b + a) / 2)
+def max(y: Double) = {
+	val argmin = helpers.Helpers.minimize(0.0 to math.Pi / 2 by 10e-8, -f(y, _))
+	f(y, argmin)
 }
 
 val result = {
 	val step = 1.0/N
 
-	var sum = gss(0) * gss(0)
+	var sum = max(0) * max(0)
 	var y = step
 	var stop = false
 
 	while (!stop) {
-		val x = gss(y)
+		val x = max(y)
 		if (x.isNaN) {
 			stop = true;
 			y -= step
-			sum -= gss(y) * gss(y)
+			sum -= max(y) * max(y)
 		} else {
 			y += step
 			sum += 2 * x * x
