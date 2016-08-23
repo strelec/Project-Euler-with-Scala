@@ -261,6 +261,16 @@ object Helpers {
 		(b + a) / 2
 	}
 
+	def findZero(r: DoubleRange, f: Double => Double) = {
+		var lo = r.start
+		var hi = r.end
+		while(hi - lo > r.step) {
+			val mid = (hi + lo) / 2
+			if (f(mid) * f(lo) > 0) lo = mid else hi = mid
+		}
+		(hi + lo) / 2
+	}
+
 	def gcd(a: Int, b: Int): Int =
 		if (b == 0) a else gcd(b, a%b)
 
