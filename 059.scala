@@ -2,18 +2,20 @@ val message = io.Source.fromURL("https://projecteuler.net/project/resources/p059
 
 val lc = 'a' to 'z'
 val vovels = "aeiou".map(_.toInt).toSet
-val result = (
+val (_, result) = (
 	for {
-		a <- lc
+		a <- lc.iterator
 		b <- lc
 		c <- lc
 		
-		m = message.zipWithIndex.map {
-			case (s, i) if i % 3 == 0 => s ^ a
-			case (s, i) if i % 3 == 1 => s ^ b
-			case (s, _)               => s ^ c
+		m = message.zipWithIndex.map { case (s, i) =>
+			i % 3 match {
+				case 0 => s ^ a
+				case 1 => s ^ b
+				case 2 => s ^ c
+			}
 		}
-	} yield m.count(vovels.contains) -> m
+	} yield m.count(vovels) -> m
 ).maxBy(_._1)
 
-println(result._2.sum)
+println(result.sum)
