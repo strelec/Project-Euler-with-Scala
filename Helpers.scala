@@ -202,6 +202,9 @@ case class Rational(n: Long, d: Long = 1) extends Ordered[Rational] {
 			Rational(a/gcd, b/gcd)
 		}
 
+	def simplify =
+		if (d < 0) create(-n, -d) else create(n, d)
+
 	def compare(that: Rational) =
 		n*that.d compare that.n*d
 
