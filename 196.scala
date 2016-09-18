@@ -14,7 +14,7 @@ def checkT(a: Long, b: Long, c: Long) =
 
 def sum(r: Int) =
 	(for {
-		c <- r/2%2 to r by 2
+		c <- (r/2%2 to r by 2).iterator
 		n = f(r, c)
 		if isPrime(n) &&
 			checkT(f(r-1, c  ), f(r-2, c-1), f(r-2, c+1)) +
