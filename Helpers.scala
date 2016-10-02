@@ -92,6 +92,24 @@ object Comb {
 			} ++ prev.map(1 :: _)
 	}
 
+	def subsetSums(l: List[(Int, Int)], sum: Int): Seq[List[Int]] = l match {
+		case Nil =>
+			if (sums == 0) Seq(Nil) else Seq()
+		case List((n, k)) =>
+			val i = sum / n
+			if (i <= k && i * n == sum) Seq(List(i)) else Seq()
+		case (n, k) :: tail =>
+			val limit =	if (n == 0) k else math.min(k, sum / n)
+			for {
+				i <- 0 to limit
+				rest <- subsetSums(tail, sum - i*n)
+			} yield i :: rest
+	}
+
+	// TODO: Optimize
+	def fixedSubsetSums(l: List[(Int, Int)], sum: Int, places: Int) =
+		subsetSums(l, sum).filter(_.sum == places)
+
 	def cartesian[T](s: List[Seq[T]]): Seq[List[T]] = s match {
 		case Nil => Seq(Nil)
 		case h :: t => for {
