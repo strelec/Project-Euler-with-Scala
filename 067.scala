@@ -10,11 +10,6 @@ def get(r: Int, c: Int) =
 for {
 	r <- triangle.indices
 	c <- triangle(r).indices
-} {
-	triangle(r)(c) += math.max(
-		get(r-1, c-1),
-		get(r-1, c)
-	)
-}
+} triangle(r)(c) += get(r-1, c-1) max get(r-1, c)
 
 println(triangle.last.max)

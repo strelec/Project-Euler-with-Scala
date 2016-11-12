@@ -21,7 +21,7 @@ def f(n: Int, k: Int, p: Int) = {
 	val binoms =
 		helpers.Helpers.binoms(k+1).map(_ % p).map(_.toLong).toArray
 
-	(k to math.max(1, n-p+k+1) by -1).map { i =>
+	(k to (1 max n-p+k+1) by -1).map { i =>
 		b *= n-i+k+1
 		b *= BigInt(n-i).modInverse(p)
 		

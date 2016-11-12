@@ -23,7 +23,7 @@ var result = Long.MaxValue
 		 j <- 0 until cols
 	} {
 		a0(i)(j) = randoms(k+j) + a1(i-1)(j) + a1(i-1)(j+1) - a2(i-2)(j+1)
-		result = math.min(result, a0(i)(j))
+		result = result min a0(i)(j)
 	}
 	k += cols
 	

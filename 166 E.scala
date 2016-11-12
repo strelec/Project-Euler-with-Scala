@@ -13,22 +13,20 @@
 	5. Having computed C1, the other three are again trivial. Just make sure they fall on 0 .. 9.
 */
 
-import math.{min, max}
-
 val r = 0 to 9
 var result = 0
 for {
 	a1 <- r; a2 <- r; a3 <- r; a4 <- r
 	s = a1 + a2 + a3 + a4
 
-	a5 <- max(0, s-a4-2*9) to min(9, s-a4)
-	a6 <- max(0, s-a4-a5-9) to min(9, s-a4-a5)
+	a5 <- (0 max s-a4-2*9) to (9 min s-a4)
+	a6 <- (0 max s-a4-a5-9) to (9 min s-a4-a5)
 	b1 = s - a4 - a5 - a6
 	
-	a7 <- max(0, s-a1-b1-9) to min(9, s-a1-b1)
+	a7 <- (0 max s-a1-b1-9) to (9 min s-a1-b1)
 	b2 = s - a1 - a7 - b1
 	
-	a8 <- max(0, max(s-a2-a7-9, s-a6-b2-9)) to min(9, min(s-a2-a7,s-a6-b2))
+	a8 <- (0 max s-a2-a7-9 max s-a6-b2-9) to (9 min s-a2-a7 min s-a6-b2)
 	b3 = s - a2 - a7 - a8
 	b4 = s - a6 - b2 - a8
 	

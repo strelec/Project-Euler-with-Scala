@@ -14,7 +14,7 @@ table(0)(0) = matrix(0)(0)
 for {
 	i <- 1 until matrix.size
 	j <- 1 until matrix.head.size
-} table(i)(j) = math.min(table(i-1)(j), table(i)(j-1)) + matrix(i)(j)
+} table(i)(j) = (table(i-1)(j) min table(i)(j-1)) + matrix(i)(j)
 
 val result = table.last.last
 println(result)
