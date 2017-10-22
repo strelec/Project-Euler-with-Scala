@@ -94,7 +94,7 @@ object Comb {
 
 	def subsetSums(l: List[(Int, Int)], sum: Int): Seq[List[Int]] = l match {
 		case Nil =>
-			if (sums == 0) Seq(Nil) else Seq()
+			if (sum == 0) Seq(Nil) else Seq()
 		case List((n, k)) =>
 			val i = sum / n
 			if (i <= k && i * n == sum) Seq(List(i)) else Seq()
@@ -296,6 +296,9 @@ object Helpers {
 		if (b == 0) a else gcd(b, a%b)
 
 	def gcd(a: Long, b: Long): Long =
+		if (b == 0) a else gcd(b, a%b)
+	
+	def gcd(a: BigInt, b: BigInt): BigInt =
 		if (b == 0) a else gcd(b, a%b)
 }
 

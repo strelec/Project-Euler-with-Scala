@@ -92,6 +92,12 @@ case class FactorSum(n: Int) extends Sieve[Int](n, 0) {
 	}
 }
 
+case class AllFactors(n: Int) extends Sieve[List[Int]](n, Nil) {
+	override def compositeAction(p: Int, i: Int, power: Int) {
+		data(i) :::= List.fill(power)(p)
+	}	
+}
+
 case class Factors(n: Int) extends Sieve[List[Int]](n, Nil) {
 	override def compositeAction(p: Int, i: Int, power: Int) {
 		data(i) ::= p
