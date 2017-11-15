@@ -1,32 +1,23 @@
-import helpers._
+val N = 250
+val M = 250250
+val MOD = BigInt(10).pow(16).toLong
 
-val mod = BigInt(10).pow(16)
+val counts = Array.fill(N)(0)
+for (i <- 1 to M)
+	counts(BigInt(i).modPow(i, N).toInt) += 1
 
-val counts = (1 to 250250).map { i =>
-	BigInt(i).modPow(i, 250)
-}.groupBy(_.toInt).mapValues(_.size).withDefaultValue(0)
+val memo = Array.fill(N)(0L)
+memo(0) = BigInt(2).modPow(counts(0), MOD).toLong
 
-def prodRange(range: Range) =
-	range.foldLeft(BigInt(1))(_ * _ % mod)
-
-
-var memo = collection.mutable.Map.empty[(Int, Int), BigInt]
-
-def count(rem: Int, cur: Int): BigInt = {
-	val number = counts(cur)
-	if (cur == 1)
-		prodRange(number until number - rem by -1)
-	else memo.getOrElse((rem, cur), {
-		val ret = (for {
-			i <- 0 to rem/cur
-			pos = prodRange(number until number - i by -1)
-			call = count(rem - i*cur, cur - 1)
-		} yield call * pos).sum % mod
-		memo((rem, cur)) = ret
-		ret
-	})
+for {
+	i <- counts.indices.tail
+	_ <- 1 to counts(i)
+} {
+	val old = memo.clone
+	for (j <- old.indices) {
+		memo(j) += old((j + i) % N)
+		memo(j) %= MOD
+	}
 }
 
-println(counts)
-println(count(0, 1))
-println(count(250, 250))
+println(memo(0) - 1)
